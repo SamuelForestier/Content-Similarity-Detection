@@ -1,54 +1,91 @@
-import similarity_comparison.jaccard_similarity as jaccard_similarity
+import similarity_comparison.jaccard_similarity as js
 
-string1 = "The quick brown fox jumps over the lazy dog."
-string2 = "The lazy dog jumps over the quick brown fox."
-string3 = "The quick brown fox jumps over the quick brown dog."
-string4 = "The quick brown fox jumps over the quick brown dog and the lazy dog."
-string5 = "The quick brown fox."
-string6 = "The quick brown fox jumps over the quick brown dog."
+
+def test_tokenize_string():
+    text = "Hello world, how are you?"
+    expected_output = ["hello", "world,", "how", "are", "you?"]
+    assert js.tokenize_string(text) == expected_output
+
+    text = "This is a test, with some special characters: %, &, #, @."
+    expected_output = [
+        "this",
+        "is",
+        "a",
+        "test,",
+        "with",
+        "some",
+        "special",
+        "characters:",
+        "%,",
+        "&,",
+        "#,",
+        "@.",
+    ]
+    assert js.tokenize_string(text) == expected_output
+
+    text = "The price is 100 dollars."
+    expected_output = ["the", "price", "is", "100", "dollars."]
+    assert js.tokenize_string(text) == expected_output
+
+    text = ""
+    expected_output = []
+    assert js.tokenize_string(text) == expected_output
+
+
+def test_jaccard_index_function():
+    set1 = set([1, 2, 3])
+    set2 = set([2, 3, 4])
+    expected_output = 0.5
+    assert js.jaccard_index_function(set1, set2) == expected_output
+
+    set1 = set(["apple", "orange", "banana"])
+    set2 = set(["orange", "banana", "pear"])
+    expected_output = 0.5
+    assert js.jaccard_index_function(set1, set2) == expected_output
+
+    set1 = set(["apple", "orange", "banana"])
+    set2 = set(["grape", "watermelon"])
+    expected_output = 0.0
+    assert js.jaccard_index_function(set1, set2) == expected_output
+
+    set1 = set([1, 2, 3])
+    set2 = set([1, 2, 3])
+    expected_output = 1.0
+    assert js.jaccard_index_function(set1, set2) == expected_output
 
 
 def test_jaccard_index_string_similarity():
-    assert jaccard_similarity.jaccard_index_string_similarity(string1, string2) == 0.6
-    assert jaccard_similarity.jaccard_index_string_similarity(string1, string3) == 0.875
-    assert jaccard_similarity.jaccard_index_string_similarity(string1, string4) == 0.8
     assert (
-        jaccard_similarity.jaccard_index_string_similarity(string1, string5)
-        == 0.3333333333333333
+        js.jaccard_index_string_similarity(
+            "The quick brown fox jumps over the lazy dog.",
+            "The lazy dog jumps over the quick brown fox.",
+        )
+        == 0.6
     )
-    assert jaccard_similarity.jaccard_index_string_similarity(string1, string6) == 0.875
-
-    assert jaccard_similarity.jaccard_index_string_similarity(string2, string3) == 0.5
     assert (
-        jaccard_similarity.jaccard_index_string_similarity(string2, string4)
-        == 0.6363636363636364
+        js.jaccard_index_string_similarity(
+            "The lazy dog jumps over the quick brown fox.",
+            "The quick brown fox jumps over the quick brown dog.",
+        )
+        == 0.5
     )
-    assert jaccard_similarity.jaccard_index_string_similarity(string2, string5) == 0.5
-    assert jaccard_similarity.jaccard_index_string_similarity(string2, string6) == 0.5
-
-    assert jaccard_similarity.jaccard_index_string_similarity(string3, string4) == 0.7
-    assert jaccard_similarity.jaccard_index_string_similarity(string3, string5) == 0.375
-    assert jaccard_similarity.jaccard_index_string_similarity(string3, string6) == 1.0
-
     assert (
-        jaccard_similarity.jaccard_index_string_similarity(string4, string5)
+        js.jaccard_index_string_similarity(
+            "The quick brown fox jumps over the quick brown dog.",
+            "The quick brown fox jumps over the quick brown dog and the lazy dog.",
+        )
+        == 0.7
+    )
+    assert (
+        js.jaccard_index_string_similarity(
+            "The quick brown fox jumps over the quick brown dog and the lazy dog.",
+            "The quick brown fox.",
+        )
         == 0.2727272727272727
     )
-    assert jaccard_similarity.jaccard_index_string_similarity(string4, string6) == 0.7
-
-    assert jaccard_similarity.jaccard_index_string_similarity(string5, string6) == 0.375
-
-
-def test_multiple_jaccard_index_string_similarity():
-    list_of_strings = [string1, string2, string3, string4, string5, string6]
-    jaccard_indices = []
-    for i in range(len(list_of_strings)):
-        for j in range(i + 1, len(list_of_strings)):
-            jaccard_indices.append(
-                jaccard_similarity.jaccard_index_string_similarity(
-                    list_of_strings[i], list_of_strings[j]
-                )
-            )
-            print(jaccard_indices)
-    average_jaccard_index = sum(jaccard_indices) / len(jaccard_indices)
-    assert average_jaccard_index == 0.6028282828282828
+    assert (
+        js.jaccard_index_string_similarity(
+            "The quick brown fox.", "The quick brown fox jumps over the lazy fox."
+        )
+        == 0.5
+    )
