@@ -12,7 +12,7 @@ def levenshtein_distance(string1, string2):
     len_s1 = len(string1)
     len_s2 = len(string2)
 
-    dist_matrix = [[0 for j in range(len_s2 + 1)] for i in range(len_s1 + 1)]
+    dist_matrix = [[0 for _ in range(len_s2 + 1)] for _ in range(len_s1 + 1)]
 
     for i in range(len_s1 + 1):
         dist_matrix[i][0] = i
