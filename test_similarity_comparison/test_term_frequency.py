@@ -68,7 +68,7 @@ def test_inverse_document_frequency():
         ["the", "lazy", "dog", "jumps", "over", "the", "brown", "fox", "again"],
     ]
     term = "the"
-    assert tf.inverse_document_frequency(term, corpus) == math.log(2 / 3)
+    assert tf.inverse_document_frequency(term, corpus) == math.log(2 / 2)
 
     corpus = [
         ["the", "quick", "brown", "fox", "jumps", "over", "the", "lazy", "dog"],
@@ -76,14 +76,14 @@ def test_inverse_document_frequency():
         ["this", "is", "a", "completely", "different", "document"],
     ]
     term = "completely"
-    assert tf.inverse_document_frequency(term, corpus) == math.log(3 / 2)
+    assert tf.inverse_document_frequency(term, corpus) == math.log(3 / 1)
 
     corpus = [
         ["the", "quick", "brown", "fox", "jumps", "over", "the", "lazy", "dog"],
         ["the", "lazy", "dog", "jumps", "over", "the", "brown", "fox", "again"],
     ]
     term = "cat"
-    assert tf.inverse_document_frequency(term, corpus) == math.log(2 / 1)
+    assert tf.inverse_document_frequency(term, corpus) == 0.0
 
     corpus = []
     term = "the"
@@ -97,7 +97,7 @@ def test_tf_idf():
     ]
     document = ["the", "quick", "brown", "fox", "jumps", "over", "the", "lazy", "dog"]
     term = "the"
-    assert tf.tf_idf(term, document, corpus) == (2 / 9) * math.log(2 / 3)
+    assert tf.tf_idf(term, document, corpus) == (2 / 9) * math.log(2 / 2)
 
     corpus = [
         ["the", "quick", "brown", "fox", "jumps", "over", "the", "lazy", "dog"],
@@ -106,7 +106,7 @@ def test_tf_idf():
     ]
     document = ["the", "quick", "brown", "fox", "jumps", "over", "the", "lazy", "dog"]
     term = "the"
-    assert tf.tf_idf(term, document, corpus) == (2 / 9) * math.log(3 / 3)
+    assert tf.tf_idf(term, document, corpus) == (2 / 9) * math.log(3 / 2)
 
     corpus = [
         ["the", "quick", "brown", "fox", "jumps", "over", "the", "lazy", "dog"],

@@ -47,7 +47,9 @@ def inverse_document_frequency(term, corpus):
         return 0.0
     else:
         count = sum(1 for document in corpus if term in document)
-        return math.log(len(corpus) / (1 + count))
+        if count == 0:
+            return 0.0
+        return math.log(len(corpus) / (count))
 
 
 def tf_idf(term, document, corpus):
