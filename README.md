@@ -38,7 +38,7 @@ Cela signifie qu'il faut un coût de 1 pour insérer le premier caractère "c" d
 
 **Retourner la distance :** La distance de Levenshtein entre les deux chaînes est la valeur située dans la dernière case de la matrice.
 
-|   | c | h | a | p | e | a | u | u |
+|   |   | c | h | a | p | e | a | u |
 |---|---|---|---|---|---|---|---|---|
 |   | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
 | c | 1 | 0 | 1 | 2 | 3 | 4 | 5 | 6 |
